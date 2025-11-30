@@ -27,7 +27,16 @@ class HabitApiController extends Controller
             ];
         }
 
-        $habits = auth()->user()->habits()->with(['logs' => function ($q) use ($startOfWeek, $endOfWeek) {
+        $userId = $request->input('user_id');
+        $user = auth()->user();
+
+        if ($userId && $user->is_admin) {
+            $targetUser = \App\Models\User::findOrFail($userId);
+        } else {
+            $targetUser = $user;
+        }
+
+        $habits = $targetUser->habits()->with(['logs' => function ($q) use ($startOfWeek, $endOfWeek) {
             $q->whereBetween('date', [$startOfWeek->format('Y-m-d'), $endOfWeek->endOfDay()->format('Y-m-d H:i:s')]);
         }])->get();
 
