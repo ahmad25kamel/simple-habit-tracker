@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo "🔄 Post-merge detected... Running build steps."
+
+# Navigate to folder (optional)
+cd "$(git rev-parse --show-toplevel)"
+
+### Composer Install
+if [ -f "composer.json" ]; then
+    echo "📦 Installing Composer dependencies..."
+    if command -v composer >/dev/null 2>&1; then
+        composer install --no-interaction --prefer-dist --optimize-autoloader
+    else
+        echo "❌ Composer not found!"
+    fi
+fi
+
+### NPM Install
+if [ -f "package-lock.json" ]; then
+    echo "📦 Installing NPM dependencies with npm ci..."
+    npm ci
+elif [ -f "package.json" ]; then
+    echo "📦 Installing NPM dependencies with npm install..."
+    npm install
+fi
+
+### Build if needed
+if [ -f "package.json" ]; then
+    if grep -q "\"build\"" package.json; then
+        echo "⚙️ Running npm build..."
+        npm run build
+    fi
+fi
+
+echo "🎉 Done!"

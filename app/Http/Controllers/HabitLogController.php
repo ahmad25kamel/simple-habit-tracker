@@ -16,7 +16,7 @@ class HabitLogController extends Controller
 
         $today = now()->format('Y-m-d');
         $log = HabitLog::where('habit_id', $habit->id)
-            ->where('date', $today)
+            ->whereDate('date', $today)
             ->first();
 
         if ($log) {

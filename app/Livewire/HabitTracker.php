@@ -49,7 +49,7 @@ class HabitTracker extends Component
         }
 
         $log = HabitLog::where('habit_id', $habitId)
-            ->where('date', $dateStr)
+            ->whereDate('date', $dateStr)
             ->first();
 
         if ($log) {
