@@ -37,7 +37,7 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 @foreach ($habits as $habit)
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50 transition-colors" wire:key="habit-{{ $habit->id }}">
                         <td class="py-4 px-4">
                             <div class="flex items-center space-x-3">
                                 <div class="w-2 h-10 rounded-l-md" style="background-color: {{ $habit->color }}"></div>
@@ -47,13 +47,13 @@
                                 </div>
                             </div>
                         </td>
-                        @foreach ($weekDates as $date)
+                        @foreach ($weekDates as $index => $date)
                             @php
                                 $dateStr = $date->format('Y-m-d');
-                                $isCompleted = $habit->logs->where('date', $date)->isNotEmpty();
+                                $isCompleted = $habit->logs->where('date', $dateStr)->isNotEmpty();
                                 $isFuture = $date->isFuture();
                             @endphp
-                            <td class="text-center py-4 px-2">
+                            <td class="text-center py-4 px-2" wire:key="habit-{{ $habit->id }}-date-{{ $index }}">
                                 <button wire:click="toggle({{ $habit->id }}, '{{ $dateStr }}')"
                                     @if ($isFuture) disabled @endif
                                     class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 
