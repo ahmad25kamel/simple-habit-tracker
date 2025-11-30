@@ -1,6 +1,6 @@
 {
-    "name": "HabitPi",
-    "short_name": "HabitPi",
+    "name": "Habit Tracker",
+    "short_name": "Habit Tracker",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
