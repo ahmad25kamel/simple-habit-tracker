@@ -5,26 +5,40 @@ echo "🔄 Post-merge detected... Running build steps."
 # Navigate to folder (optional)
 cd "$(git rev-parse --show-toplevel)"
 
+# Get changed files between ORIG_HEAD (state before merge) and HEAD (state after merge)
+CHANGED_FILES=$(git diff --name-only ORIG_HEAD HEAD)
+
 ### Composer Install
 if [ -f "composer.json" ]; then
-    echo "📦 Installing Composer dependencies..."
-    if command -v composer >/dev/null 2>&1; then
-        composer install --no-interaction --prefer-dist --optimize-autoloader
+    if echo "$CHANGED_FILES" | grep -qE "composer.json|composer.lock"; then
+        echo "📦 Composer dependencies (composer.json or composer.lock) changed. Installing..."
+        if command -v composer >/dev/null 2>&1; then
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+        else
+            echo "❌ Composer not found!"
+        fi
     else
-        echo "❌ Composer not found!"
+        echo "✅ Composer dependencies unchanged. Skipping install."
     fi
 fi
 
 ### NPM Install
-if [ -f "package-lock.json" ]; then
-    echo "📦 Installing NPM dependencies with npm ci..."
-    npm ci
-elif [ -f "package.json" ]; then
-    echo "📦 Installing NPM dependencies with npm install..."
-    npm install
+if [ -f "package.json" ]; then
+    if echo "$CHANGED_FILES" | grep -qE "package.json|package-lock.json"; then
+        echo "📦 NPM dependencies (package.json or package-lock.json) changed. Installing..."
+        if [ -f "package-lock.json" ]; then
+            echo "📦 Installing NPM dependencies with npm ci..."
+            npm ci
+        elif [ -f "package.json" ]; then
+            echo "📦 Installing NPM dependencies with npm install..."
+            npm install
+        fi
+    else
+        echo "✅ NPM dependencies unchanged. Skipping install."
+    fi
 fi
 
-### Build if needed
+### Build if needed (always run if package.json exists and build script is defined, as source code might have changed)
 if [ -f "package.json" ]; then
     if grep -q "\"build\"" package.json; then
         echo "⚙️ Running npm build..."
