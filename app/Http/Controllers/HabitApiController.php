@@ -55,6 +55,7 @@ class HabitApiController extends Controller
                     return [
                         'date' => $date['date'],
                         'completed' => $logs->has($date['date']),
+                        'is_future' => $date['is_future'],
                     ];
                 })
             ];

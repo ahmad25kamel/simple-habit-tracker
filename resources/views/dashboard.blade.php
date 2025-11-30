@@ -68,13 +68,12 @@
                     <div class="grid grid-cols-7 gap-1 bg-white p-1">
                         <template x-for="log in habit.logs" :key="log.date">
                             <div class="flex items-center justify-center aspect-square">
-                                <button @click="toggle(habit.id, log.date)" :disabled="isFuture(log.date)"
+                                <button @click="toggle(habit.id, log.date)" :disabled="log.is_future"
                                     class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
                                     :class="{
                                         'bg-green-500 text-white shadow-md scale-110': log.completed,
-                                        'bg-gray-100 text-gray-300 hover:bg-gray-200': !log.completed && !isFuture(log
-                                            .date),
-                                        'opacity-50 cursor-not-allowed': isFuture(log.date)
+                                        'bg-gray-100 text-gray-300 hover:bg-gray-200': !log.completed && !log.is_future,
+                                        'opacity-50 cursor-not-allowed': log.is_future
                                     }">
                                     <svg x-show="log.completed" class="w-5 h-5" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24" stroke-width="3">
