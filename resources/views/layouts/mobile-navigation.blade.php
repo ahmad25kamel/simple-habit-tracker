@@ -1,7 +1,7 @@
 <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 block sm:hidden z-50 pb-safe">
     <div class="flex justify-around items-center h-16">
         <!-- Dashboard / Home -->
-        <a href="{{ route('dashboard') }}" wire:navigate
+        <a href="{{ route('dashboard') }}"
             class="flex flex-col items-center justify-center w-full h-full {{ request()->routeIs('dashboard') ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700' }}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -13,7 +13,7 @@
 
         @if (auth()->user()->is_admin)
             <!-- Users (Admin Only) -->
-            <a href="{{ route('users.index') }}" wire:navigate
+            <a href="{{ route('users.index') }}"
                 class="flex flex-col items-center justify-center w-full h-full {{ request()->routeIs('users.*') ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700' }}">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -25,7 +25,7 @@
         @endif
 
         <!-- Profile -->
-        <a href="{{ route('profile.edit') }}" wire:navigate
+        <a href="{{ route('profile.edit') }}"
             class="flex flex-col items-center justify-center w-full h-full {{ request()->routeIs('profile.edit') ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700' }}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

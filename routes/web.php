@@ -22,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/admin/dashboard', [HabitController::class, 'index'])->name('admin.dashboard');
 
+    // Internal API Routes (Session Auth)
+    Route::get('/api/habits', [\App\Http\Controllers\HabitApiController::class, 'index'])->name('api.habits.index');
+    Route::post('/api/habits/{habit}/toggle', [\App\Http\Controllers\HabitApiController::class, 'toggle'])->name('api.habits.toggle');
+
     // User Management
     Route::resource('users', \App\Http\Controllers\UserController::class)->only(['index', 'store', 'update', 'destroy']);
 

@@ -22,7 +22,7 @@
             navigator.serviceWorker.register('/sw.js');
         }
     </script>
-    @livewireStyles
+
 </head>
 
 <body class="font-sans antialiased">
@@ -44,7 +44,7 @@
         </main>
     </div>
     @include('layouts.mobile-navigation')
-    @livewireScripts
+
 </body>
 
 </html>
